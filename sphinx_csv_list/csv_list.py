@@ -5,6 +5,7 @@ from pathlib import Path
 
 from docutils import nodes, utils
 from docutils.parsers.rst import Directive, directives
+from sphinx.locale import _
 
 class CSVListDirective(Directive):
 
@@ -28,7 +29,7 @@ class CSVListDirective(Directive):
         id_prefix = self.options.get('id-prefix', '')
 
         if self.content:
-            if 'file' in self.options or 'url' in self.options:
+            if 'file' in self.options:
                 raise self.error(
                     '"%s" directive may not both specify an external file '
                     'and have content.' % self.name)
@@ -58,7 +59,7 @@ class CSVListDirective(Directive):
                 output += f'<span class="csv-list-key">{key}</span>'
                 output += f'<span class="csv-list-value">{value}</span>'
                 if id_key in obj:
-                    output += f'<a class="headerlink" href="#{id_prefix + obj[id_key]}" title="「{value}」へのパーマリンク">¶</a>'
+                    output += f'<a class="headerlink" href="#{id_prefix + obj[id_key]}" title="{_("Permalink to this headline")}">¶</a>'
                 output += '</p>'
             for key, value in zip(header, row):
                 if key == title_key:
